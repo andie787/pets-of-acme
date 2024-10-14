@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient, Gender } from '@prisma/client';
+import { PrismaClient, Gender, Species } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 interface PetRequestBody {
     owner: string;
     name: string;
-    species: string;
+    species: Species;
     gender: Gender;
     birthday: Date;
     photoUrl: string;
@@ -16,7 +16,6 @@ interface PetRequestBody {
     try {
       const { owner, name, species, gender, birthday, photoUrl }: PetRequestBody = await req.json();
   
-      // Convert the birthday string to a Date object before passing to Prisma
       const newPet = await prisma.pet.create({
         data: {
           owner,
