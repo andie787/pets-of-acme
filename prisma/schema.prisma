@@ -18,15 +18,21 @@ enum Gender {
   female
 }
 
+enum Species {
+  bird
+  cat
+  dog
+  fish
+  rodent
+}
+
 model Pet {
   id       Int      @id @default(autoincrement())
   name     String
   owner    String
-  nickname String
   gender   Gender
-  species  String
+  species  Species
   birthday DateTime
-  age      Int      @ignore // try calculate this dynamically instead
   photoUrl String
   createdAt DateTime @default(now())
 }

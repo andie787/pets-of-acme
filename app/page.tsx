@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -10,53 +11,20 @@ type Pet = {
   id: number
   name: string
   owner: string
-  nicknames: string[]
   gender: 'male' | 'female'
   species: string
   birthday: string
+  age?: number; // Calculated field
   photo: string
 }
 
-const pets: Pet[] = [
-  {
-    id: 1,
-    name: "Buddy",
-    owner: "John Doe",
-    nicknames: ["Bud", "Fluffy"],
-    gender: "male",
-    species: "Dog",
-    birthday: "2018-05-15",
-    photo: "/placeholder.svg?height=100&width=100"
-  },
-  {
-    id: 2,
-    name: "Whiskers",
-    owner: "Jane Smith",
-    nicknames: ["Kitty", "Princess"],
-    gender: "female",
-    species: "Cat",
-    birthday: "2019-09-22",
-    photo: "/placeholder.svg?height=100&width=100"
-  },
-  {
-    id: 3,
-    name: "Tweety",
-    owner: "Alice Johnson",
-    nicknames: ["Birdie", "Chirp"],
-    gender: "male",
-    species: "Bird",
-    birthday: "2020-03-10",
-    photo: "/placeholder.svg?height=100&width=100"
-  },
-  // Add more pets as needed
-]
-
 const getSpeciesColor = (species: string) => {
   const colors: { [key: string]: string } = {
-    Dog: "bg-blue-500",
-    Cat: "bg-green-500",
-    Bird: "bg-yellow-500",
-    Fish: "bg-purple-500",
+    dog: "bg-blue-500",
+    cat: "bg-green-500",
+    bird: "bg-yellow-500",
+    fish: "bg-purple-500",
+    rodent: "bg-orange-500",
     // Add more species and colors as needed
   }
   return colors[species] || "bg-gray-500"
@@ -76,7 +44,22 @@ const calculateAge = (birthday: string) => {
 }
 
 export default function Component() {
+  const [pets, setPets] = useState<Pet[]>([])
   const [selectedSpecies, setSelectedSpecies] = useState<string>('all')
+
+  useEffect(() => {
+    async function fetchPets() {
+      try {
+        const res = await fetch('/api/')
+        const data = await res.json()
+        setPets(data)
+      } catch (error) {
+        console.error('Error fetching pets:', error)
+      }
+    }
+
+    fetchPets()
+  }, [])
 
   const filteredPets = selectedSpecies === 'all' 
     ? pets 
@@ -86,7 +69,16 @@ export default function Component() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Pet Directory</h1>
+      <h1 className="text-3xl font-bold mb-6">Pets of Acme</h1>
+
+      <div className="mb-4">
+        <Link href="/add-pets">
+          <button className="bg-blue-500 text-white px-4 py-2 rounded">
+            Add a New Pet
+          </button>
+        </Link>
+      </div>
+
       <div className="mb-4">
         <Select onValueChange={setSelectedSpecies} defaultValue="all">
           <SelectTrigger className="w-[180px]">
@@ -107,7 +99,7 @@ export default function Component() {
               <CardTitle className="flex items-center justify-between">
                 <div>
                   <span>{pet.name}</span>
-                  <p className="text-sm text-muted-foreground">Age {calculateAge(pet.birthday)}</p>
+                  <p className="text-sm text-muted-foreground">Age {pet.age}</p>
                 </div>
                 <Badge className={`${getSpeciesColor(pet.species)} text-white`}>
                   {pet.species}
@@ -121,17 +113,9 @@ export default function Component() {
                   <AvatarFallback>{pet.name[0]}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p><strong>Owner:</strong> {pet.owner}</p>
                   <p><strong>Gender:</strong> {pet.gender}</p>
                   <p><strong>Birthday:</strong> {pet.birthday}</p>
-                </div>
-              </div>
-              <div>
-                <strong>Nicknames:</strong>
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {pet.nicknames.map((nickname, index) => (
-                    <Badge key={index} variant="outline">{nickname}</Badge>
-                  ))}
+                  <p><strong>Human guardian:</strong> {pet.owner}</p>
                 </div>
               </div>
             </CardContent>
