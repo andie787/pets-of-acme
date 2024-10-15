@@ -8,10 +8,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { CalendarIcon } from "lucide-react"
-import { format } from "date-fns"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Textarea } from "@/components/ui/textarea"
 import { CustomDatePicker } from "@/components/ui/custom-date-picker"
 
@@ -91,8 +87,8 @@ export default function AddPet() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="name">Pet's name</Label>
-              <Input
+            <Label htmlFor="name">Pet&apos;s name</Label>
+            <Input
                 id="name"
                 name="name"
                 value={formData.name}
