@@ -13,6 +13,7 @@ import { format } from "date-fns"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Textarea } from "@/components/ui/textarea"
+import { CustomDatePicker } from "@/components/ui/custom-date-picker"
 
 export default function AddPet() {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ export default function AddPet() {
     nicknames: '',
     species: '',
     gender: '',
-    birthday: '',
+    birthday: null as Date | null,
     bio: '',
     photoUrl: ''
   })
@@ -37,10 +38,8 @@ export default function AddPet() {
     setFormData(prevState => ({ ...prevState, [name]: value }))
   }
 
-  const handleDateChange = (date: Date | undefined) => {
-    if (date) {
-      setFormData(prevState => ({ ...prevState, birthday: format(date, 'yyyy-MM-dd') }))
-    }
+  const handleDateChange = (date: Date) => {
+    setFormData(prevState => ({ ...prevState, birthday: date }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,7 +53,8 @@ export default function AddPet() {
         },
         body: JSON.stringify({
           ...formData,
-          nicknames: formData.nicknames.split(',').map(nickname => nickname.trim())
+          nicknames: formData.nicknames.split(',').map(nickname => nickname.trim()),
+          birthday: formData.birthday ? formData.birthday.toISOString().split('T')[0] : null
         }),
         })
 
@@ -139,25 +139,10 @@ export default function AddPet() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="birthday">Birthday</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={`w-full justify-start text-left font-normal ${!formData.birthday ? "text-muted-foreground" : ""}`}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {formData.birthday ? format(new Date(formData.birthday), "PPP") : <span>Pick a date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={formData.birthday ? new Date(formData.birthday) : undefined}
-                    onSelect={handleDateChange}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+              <CustomDatePicker
+                selectedDate={formData.birthday}
+                onDateChange={handleDateChange}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="bio">Bio (500 characters max)</Label>
