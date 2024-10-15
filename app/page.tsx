@@ -10,11 +10,13 @@ import { Badge } from "@/components/ui/badge"
 type Pet = {
   id: number
   name: string
+  nicknames: string[]
   owner: string
   gender: 'male' | 'female'
   species: string
   birthday: string
   age?: number; // Calculated field
+  bio: string
   photo: string
 }
 
@@ -56,12 +58,12 @@ export default function Component() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Pets of Acme</h1>
+      <h1 className="text-3xl font-bold mb-6">The Pets of AcmeCo</h1>
 
       <div className="mb-4">
         <Link href="/add-pets">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded">
-            Add a New Pet
+          <button className="bg-violet-800 hover:bg-violet-600 text-white px-3 py-1.5 rounded">
+            Add your pet
           </button>
         </Link>
       </div>
@@ -72,7 +74,7 @@ export default function Component() {
             <SelectValue placeholder="Filter by species" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Species</SelectItem>
+            <SelectItem value="all">All types</SelectItem>
             {uniqueSpecies.map((species) => (
               <SelectItem key={species} value={species.toLowerCase()}>{species}</SelectItem>
             ))}
@@ -100,10 +102,15 @@ export default function Component() {
                   <AvatarFallback>{pet.name[0]}</AvatarFallback>
                 </Avatar>
                 <div>
+                  <p><strong>Nicknames:</strong> {pet.nicknames.join(', ')}</p>
                   <p><strong>Gender:</strong> {pet.gender}</p>
                   <p><strong>Birthday:</strong> {pet.birthday}</p>
                   <p><strong>Human guardian:</strong> {pet.owner}</p>
                 </div>
+              </div>
+              <div className="border-t pt-4">
+                <strong>About {pet.name}</strong>
+                <p className="mt-2 text-sm text-muted-foreground">{pet.bio}</p>
               </div>
             </CardContent>
           </Card>

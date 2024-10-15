@@ -29,10 +29,12 @@ enum Species {
 model Pet {
   id       Int      @id @default(autoincrement())
   name     String
+  nicknames String[]
   owner    String
   gender   Gender
   species  Species
   birthday DateTime
+  bio      String
   photoUrl String
   createdAt DateTime @default(now())
 }
