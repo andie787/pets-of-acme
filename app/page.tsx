@@ -22,11 +22,11 @@ type Pet = {
 
 const getSpeciesColor = (species: string) => {
   const colors: { [key: string]: string } = {
-    dog: "bg-blue-500",
-    cat: "bg-green-500",
-    bird: "bg-yellow-500",
-    fish: "bg-purple-500",
-    rodent: "bg-orange-500",
+    dog: "bg-rose-300",
+    cat: "bg-pink-800",
+    bird: "bg-indigo-800",
+    fish: "bg-cyan-700",
+    rodent: "bg-yellow-900",
     // Add more species and colors as needed
   }
   return colors[species] || "bg-gray-500"
