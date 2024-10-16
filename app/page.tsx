@@ -104,12 +104,16 @@ export default function Component() {
                 <div>
                   <p><strong>Nicknames:</strong> {pet.nicknames.join(', ')}</p>
                   <p><strong>Gender:</strong> {pet.gender}</p>
-                  <p><strong>Birthday:</strong> {pet.birthday}</p>
+                  <p><strong>Birthday:</strong> {new Date(pet.birthday).toLocaleDateString('en-GB', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric'
+                    })}</p>
                   <p><strong>Human guardian:</strong> {pet.owner}</p>
                 </div>
               </div>
               <div className="border-t pt-4">
-                <strong>About {pet.name}</strong>
+                <strong className="text-sm">About {pet.name}</strong>
                 <p className="mt-2 text-sm text-muted-foreground">{pet.bio}</p>
               </div>
             </CardContent>

@@ -110,7 +110,7 @@ export default function AddPet() {
               <Label htmlFor="species">Type</Label>
               <Select name="species" onValueChange={(value) => handleSelectChange('species', value)} required>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select the type of pet" />
+                  <SelectValue placeholder="Select type of pet" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="bird">Bird</SelectItem>
