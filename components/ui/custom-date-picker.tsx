@@ -34,6 +34,7 @@ const YearSelect = React.memo(({ currentYear, onYearChange }: { currentYear: num
     </SelectContent>
   </Select>
 ))
+YearSelect.displayName = 'YearSelect'
 
 const MonthSelect = React.memo(({ currentMonth, onMonthChange }: { currentMonth: number, onMonthChange: (month: string) => void }) => (
   <Select onValueChange={onMonthChange} value={MONTHS[currentMonth]}>
@@ -49,6 +50,7 @@ const MonthSelect = React.memo(({ currentMonth, onMonthChange }: { currentMonth:
     </SelectContent>
   </Select>
 ))
+MonthSelect.displayName = 'MonthSelect'
 
 export function CustomDatePicker({ selectedDate, onDateChange }: CustomDatePickerProps) {
   const [isOpen, setIsOpen] = useState(false)
@@ -69,6 +71,7 @@ export function CustomDatePicker({ selectedDate, onDateChange }: CustomDatePicke
     setIsOpen(false)
   }, [currentDate, onDateChange])
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { daysInMonth, firstDayOfMonth, days } = useMemo(() => {
     const daysInMonth = getDaysInMonth(currentDate)
     const firstDayOfMonth = getDay(startOfMonth(currentDate))
