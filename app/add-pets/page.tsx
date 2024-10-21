@@ -135,11 +135,14 @@ export default function AddPet() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="birthday">Birthday</Label>
-              <CustomDatePicker
-                selectedDate={formData.birthday}
-                onDateChange={handleDateChange}
-              />
+              <div className="block">
+                <CustomDatePicker
+                  selectedDate={formData.birthday}
+                  onDateChange={handleDateChange}
+                />
+              </div>
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="bio">Bio (500 characters max)</Label>
               <Textarea
