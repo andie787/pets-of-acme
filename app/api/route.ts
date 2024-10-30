@@ -14,6 +14,7 @@ interface PetRequestBody {
     photoUrl: string;
 }
 
+// create a new pet
 export async function POST(req: Request): Promise<NextResponse> {
     try {
         const { owner, name, nicknames, species, gender, birthday, bio, photoUrl }: PetRequestBody = await req.json();
@@ -39,11 +40,12 @@ export async function POST(req: Request): Promise<NextResponse> {
     }
 }
 
+// get all pets to display on main page
 export async function GET(): Promise<NextResponse> {
     try {
         const pets = await prisma.pet.findMany();
 
-        // Calculate age dynamically for each pet
+        // Calculate age dynamically
         const petsWithAge = pets.map(pet => ({
             ...pet,
             age: calculatePetAge(pet.birthday),
@@ -56,7 +58,18 @@ export async function GET(): Promise<NextResponse> {
     }
 }
 
-// Function to calculate the pet's age, returning months if under a year
+// delete a pet TODO: catch error
+export async function DELETE(req: Request): Promise<NextResponse> {
+    const { id } = await req.json();
+
+    if (!id) return NextResponse.json({ error: 'Pet ID is required' }, { status: 400 });
+
+    await prisma.pet.delete({ where: { id } });
+
+    return NextResponse.json({ message: 'Pet deleted successfully' });
+}
+
+// calculate the pet's age, returning months if under a year
 function calculatePetAge(birthday: Date): string {
   const birthDate = new Date(birthday);
   const today = new Date();

@@ -100,3 +100,11 @@ Asked V0 to optimize my cobbled-together custom date picker component. It explai
 ## October 21
 
 Committed changes, fixed errors, and updated the readme. Also added this journal.
+
+## October 30
+
+Finally coming back after being busy with other things. I want to be able to delete pets. The issue I see is that you'd want to use the ID to do that, but how to retrieve it? The ID is just an integer, starts with 1 and increments.
+
+Design-wise for the user, what would be best? Considering I want to also add an edit button later, maybe a "more" icon with a dropdown. Edit will need to open the form, but delete could just have an inline confirmation.
+
+Add DELETE to route.ts.
